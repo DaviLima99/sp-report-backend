@@ -1,22 +1,27 @@
 package com.davilm.springboot.backend.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "point")
-public class Point {
+@Table(name = "points")
+public class Point implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="title")
+    @NotNull(message = "Título é obrigatório!")
+    private String title;
 
     @Column(name="description")
+    @NotNull(message = "Descrição é obrigatória!")
     private String description;
 
     @Column(name="image")
+    @NotNull(message = "Imagem é obrigatória!")
     private String image;
 
     @Column(name="latitude")
@@ -28,13 +33,11 @@ public class Point {
     @Column(name="open")
     private Boolean open;
 
-    public Point() {
+    public Point() {}
 
-    }
-
-    public Point(String name, String description, String image, double latitude, double longitude, Boolean open) {
+    public Point(String title, String description, String image, double latitude, double longitude, Boolean open) {
         super();
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.image = image;
         this.latitude = latitude;
@@ -50,12 +53,12 @@ public class Point {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
