@@ -43,9 +43,18 @@ public class PointController {
         }
     }
 
-//
-//    @PutMapping("/points/{id}")
-//    public ResponseEntity<Point> update(@PathVariable Long id, @Valid @RequestBody Point point) {
-//        Optional<Point> pointExist =  pointRepository.findById(id);
-//    }
+    // update point
+    @PutMapping("/{id}")
+    public ResponseEntity<Point> update(@PathVariable Long id, @Valid @RequestBody Point point) {
+        try {
+            Point pointExist =  pointService.update(point);
+
+            return ResponseEntity
+                    .created(new URI("/points/" + pointExist.getId()))
+                    .eTag(Long.toString(pointExist.getId()))
+                    .body(pointExist);
+        } catch (URISyntaxException error) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
