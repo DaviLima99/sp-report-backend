@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -48,5 +49,10 @@ public class PointController {
         } catch (URISyntaxException error) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @PutMapping("/points/{id}")
+    public ResponseEntity<Point> update(@PathVariable Long id, @Valid @RequestBody Point point) {
+        Optional<Point> pointExist =  pointRepository.findById(id);
     }
 }
