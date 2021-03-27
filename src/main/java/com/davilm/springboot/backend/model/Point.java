@@ -1,22 +1,31 @@
 package com.davilm.springboot.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.*;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "point")
-public class Point {
+@Data
+@Table(name = "points")
+public class Point implements Serializable  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="title")
+    @NotNull(message = "Título é obrigatório!")
+    private String title;
 
     @Column(name="description")
+    @NotNull(message = "Descrição é obrigatória!")
     private String description;
 
     @Column(name="image")
+    @NotNull(message = "Imagem é obrigatória!")
     private String image;
 
     @Column(name="latitude")
@@ -26,15 +35,18 @@ public class Point {
     private double  longitude;
 
     @Column(name="open")
-    private Boolean open;
+    private boolean open;
 
-    public Point() {
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 
-    }
+    public Point() {}
 
-    public Point(String name, String description, String image, double latitude, double longitude, Boolean open) {
+    public Point(String title, String description, String image, double latitude, double longitude, Boolean open) {
         super();
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.image = image;
         this.latitude = latitude;
@@ -50,12 +62,12 @@ public class Point {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -90,11 +102,19 @@ public class Point {
         this.longitude = longitude;
     }
 
-    public Boolean getOpen() {
+    public boolean isOpen() {
         return open;
     }
 
-    public void setOpen(Boolean open) {
+    public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
